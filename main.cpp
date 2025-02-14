@@ -31,6 +31,27 @@ vector<vector<uint8_t>> load_mnist_images(const string& filename, int& num_image
     return images;
 }
 
+vector<uint8_t> load_mnist_labels(const string& filename, int& num_labels) {
+    ifstream file(filename, ios::binary);
+    if (!file) {
+        cerr << "Cannot open file: " << filename << endl;
+        exit(1);
+    }
+
+    uint32_t magic, num;
+    file.read(reinterpret_cast<char*>(&magic), 4);
+    file.read(reinterpret_cast<char*>(&num), 4);
+
+    num_labels = __builtin_bswap32(num);
+
+    vector<uint8_t> labels(num_labels);
+    file.read(reinterpret_cast<char*>(labels.data()), num_labels);
+
+    file.close();
+    return labels;
+}
+
+
 int main() {
     return 0;
 }
