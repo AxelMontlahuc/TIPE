@@ -25,21 +25,6 @@ struct Layer {
     }
 };
 
-struct NeuralNetwork {
-    Layer hidden;
-    Layer output;
-
-    NeuralNetwork() : hidden(784, 16), output(16, 10) {}
-
-    vector<double> predict(const vector<uint8_t>& image) {
-        vector<double> input(image.begin(), image.end());
-        for (double& x : input) x /= 255.0;
-
-        vector<double> hidden_output = forward(input, hidden);
-        return forward(hidden_output, output);
-    }
-};
-
 vector<vector<uint8_t>> load_mnist_images(const string& filename, int& num_images) {
     ifstream file(filename, ios::binary);
     if (!file) {
@@ -108,6 +93,20 @@ vector<double> forward(const vector<double>& input, Layer& layer) {
     return output;
 }
 
+struct NeuralNetwork {
+    Layer hidden;
+    Layer output;
+
+    NeuralNetwork() : hidden(784, 16), output(16, 10) {}
+
+    vector<double> predict(const vector<uint8_t>& image) {
+        vector<double> input(image.begin(), image.end());
+        for (double& x : input) x /= 255.0;
+
+        vector<double> hidden_output = forward(input, hidden);
+        return forward(hidden_output, output);
+    }
+};
 
 int main() {
     return 0;
