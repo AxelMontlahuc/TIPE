@@ -72,6 +72,10 @@ vector<uint8_t> load_mnist_labels(const string& filename, int& num_labels) {
     return labels;
 }
 
+double sigmoid(double x) {
+    return 1.0 / (1.0 + exp(-x));
+}
+
 
 int main() {
     return 0;
