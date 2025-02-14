@@ -76,6 +76,23 @@ double sigmoid(double x) {
     return 1.0 / (1.0 + exp(-x));
 }
 
+vector<double> forward(const vector<double>& input, Layer& layer) {
+    vector<double> output(layer.biases.size());
+    
+    for (size_t i = 0; i < layer.biases.size(); i++) {
+        double sum = layer.biases[i];
+
+        for (size_t j = 0; j < input.size(); j++) {
+            sum += input[j] * layer.weights[i][j];
+        }
+
+        output[i] = sigmoid(sum);
+    }
+    
+    layer.outputs = output;
+    return output;
+}
+
 
 int main() {
     return 0;
