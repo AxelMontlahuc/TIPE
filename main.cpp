@@ -1,8 +1,29 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cmath>
+#include <cmath>
 #include <cstdint>
 using namespace std;
+
+struct Layer {
+    vector<vector<double>> weights;
+    vector<double> biases;
+    vector<double> outputs;
+
+    Layer(int input_size, int output_size) {
+        weights.resize(output_size, vector<double>(input_size));
+        biases.resize(output_size);
+        outputs.resize(output_size);
+
+        for (int i = 0; i < output_size; i++) {
+            biases[i] = ((double) rand() / RAND_MAX) - 0.5;
+            for (int j = 0; j < input_size; j++) {
+                weights[i][j] = ((double) rand() / RAND_MAX) - 0.5;
+            }
+        }
+    }
+};
 
 vector<vector<uint8_t>> load_mnist_images(const string& filename, int& num_images) {
     ifstream file(filename, ios::binary);
