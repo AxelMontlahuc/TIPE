@@ -22,7 +22,7 @@ It stores the ``weights``, ``biases`` and ``outputs`` of the layer.
 The values are randomly initialized in the constructor in the range $[-0.5, 0.5]$.
 
 ---
-#### Structure 2: ``NeuralNetwork``
+### Structure 2: ``NeuralNetwork``
 This structure defines the neural network architecture.
 It contains three layers : 
 - The **input layer**: $784$ neurons ($28 \times 28$ pixels).
