@@ -83,3 +83,10 @@ Where :
 - $w_{ij}$ is the weight of the connection from the input neuron $j$ to the output neuron $i$. 
 - $b_i$ is the bias of the neuron $i$.
 - $\sigma$ is the activation function (here the sigmoid function).
+
+---
+#### Function 2: ``backward``
+The ``backward`` function performs the backward propagation through a layer of the network : it computes the gradients of the ``weights`` and ``biases`` of the layer using the gradient chain rule : 
+$$\frac{\partial L}{\partial w_{ij}} = \frac{\partial L}{\partial y_i} \frac{\partial y_i}{\partial w_{ij}}$$
+The function then performs the gradient descent to update the weights and biases of the layer using the formula : 
+$$w_{ij} = w_{ij} - \alpha \frac{\partial L}{\partial w_{ij}}$$
