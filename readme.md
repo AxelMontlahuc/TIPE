@@ -90,3 +90,17 @@ The ``backward`` function performs the backward propagation through a layer of t
 $$\frac{\partial L}{\partial w_{ij}} = \frac{\partial L}{\partial y_i} \frac{\partial y_i}{\partial w_{ij}}$$
 The function then performs the gradient descent to update the weights and biases of the layer using the formula : 
 $$w_{ij} = w_{ij} - \alpha \frac{\partial L}{\partial w_{ij}}$$
+
+---
+#### Function 3: ``train``
+The ``train`` function puts all the pieces together to train the model on he MNIST dataset. It performs the forward and backward propagation for each sample for $n$ epochs. For now, we chose $n = 10$ for testing purposes.
+
+It is also worth noting that this function tracks the accuracy of the model and prints it every epoch.
+
+---
+# Bilbliography
+|Title|Link|
+|-----|-----|
+|DIVE: Diversified Iterative Self-Improvement|https://arxiv.org/html/2501.00747v1|
+|Self-Refine: Iterative Refinement with Self-Feedback|https://arxiv.org/abs/2303.17651|
+|Recursive Introspection: Teaching Language Model Agents How to Self-Improve|https://arxiv.org/abs/2407.18219|
