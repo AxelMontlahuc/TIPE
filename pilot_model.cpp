@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <cmath>
-#include <cmath>
+#include <cstdlib>
 #include <cstdint>
 using namespace std;
 
@@ -74,6 +74,10 @@ vector<uint8_t> load_mnist_labels(const string& filename, int& num_labels) {
 
 double sigmoid(double x) {
     return 1.0 / (1.0 + exp(-x));
+}
+
+double cross_entropy_loss(const vector<double>& predicted, int label) {
+    return -log(predicted[label] + 1e-9);
 }
 
 vector<double> forward(const vector<double>& input, Layer& layer) {
