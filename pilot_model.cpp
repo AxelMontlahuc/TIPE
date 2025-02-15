@@ -128,6 +128,31 @@ struct NeuralNetwork {
     }
 };
 
+void train(NeuralNetwork& nn, const vector<vector<uint8_t>>& images, const vector<uint8_t>& labels, int epochs, double lr) {
+    for (int epoch = 0; epoch < epochs; epoch++) {
+        double total_loss = 0.0;
+        int correct = 0;
+
+        for (size_t i = 0; i < images.size(); i++) {
+            vector<double> output = nn.predict(images[i]);
+            total_loss += cross_entropy_loss(output, labels[i]);
+
+            vector<double> d_output(10, 0.0);
+            d_output[labels[i]] = output[labels[i]] - 1;
+
+            backward(nn.hidden.outputs, nn.output, d_output, lr);
+            backward(images[i], nn.hidden, nn.hidden.outputs, lr);
+
+            if (max_element(output.begin(), output.end()) - output.begin() == labels[i]) {
+                correct++;
+            }
+        }
+
+        cout << "Epoch " << epoch + 1 << " - Loss: " << total_loss / images.size() 
+             << " - Accuracy: " << (correct * 100.0 / images.size()) << "%" << endl;
+    }
+}
+
 int main() {
     return 0;
 }
