@@ -156,5 +156,12 @@ void train(NeuralNetwork& nn, const vector<vector<uint8_t>>& images, const vecto
 }
 
 int main() {
+    int num_images;
+    vector<vector<uint8_t>> images = load_mnist_images("./data/MNIST/train-images.idx3-ubyte", num_images);
+    vector<uint8_t> labels = load_mnist_labels("./data/MNIST/train-labels.idx1-ubyte", num_images);
+
+    NeuralNetwork nn;
+    train(nn, images, labels, 50, 0.01);
+
     return 0;
 }
