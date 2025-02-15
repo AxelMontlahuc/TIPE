@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 #include <cmath>
 #include <cstdlib>
 #include <cstdint>
@@ -141,7 +142,8 @@ void train(NeuralNetwork& nn, const vector<vector<uint8_t>>& images, const vecto
             d_output[labels[i]] = output[labels[i]] - 1;
 
             backward(nn.hidden.outputs, nn.output, d_output, lr);
-            backward(images[i], nn.hidden, nn.hidden.outputs, lr);
+            vector<double> image_double(images[i].begin(), images[i].end());
+            backward(image_double, nn.hidden, nn.hidden.outputs, lr);
 
             if (max_element(output.begin(), output.end()) - output.begin() == labels[i]) {
                 correct++;
