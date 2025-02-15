@@ -97,6 +97,22 @@ vector<double> forward(const vector<double>& input, Layer& layer) {
     return output;
 }
 
+void backward(vector<double>& input, Layer& layer, vector<double>& d_output, double lr) {
+    vector<double> d_input(input.size(), 0.0);
+
+    for (size_t i = 0; i < layer.biases.size(); i++) {
+        double grad = d_output[i] * layer.outputs[i] * (1 - layer.outputs[i]);
+
+        layer.biases[i] -= lr * grad;
+
+        for (size_t j = 0; j < input.size(); j++) {
+            d_input[j] += grad * layer.weights[i][j];
+            layer.weights[i][j] -= lr * grad * input[j];
+        }
+    }
+    input = d_input;
+}
+
 struct NeuralNetwork {
     Layer hidden;
     Layer output;
