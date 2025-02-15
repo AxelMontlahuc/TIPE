@@ -58,13 +58,24 @@ It works the same way as the ``load_mnist_images`` function.
 
 ---
 ### Math Functions
-#### Function 3: ``sigmoid``
+#### Function 1: ``sigmoid``
 This function calculates the sigmoid of a given value as it is here used as the activation function. As a reminder here is the formula for the sigmoid function:
 $$\sigma(x) = \frac{1}{1+e^{-x}}$$
 
 ---
+#### Function 2: ``cross_entropy_loss``
+This is the implementation of the log-loss function which is the loss function used for this model. The formula for the log-loss function is:
+$$L = -\frac{1}{m} \sum_{i=1}^{m} y_i \log(\hat{y}_{i})$$
+Where :
+- $m$ is the number of samples.
+- $y_i$ is the true label of the $i^{th}$ sample.
+- $\hat{y}_{i}$ is the predicted label of the $i^{th}$ sample.
+
+Nota Bene: There is a small value $\epsilon = 10^{-8}$ added inside the $\log$ to avoid computing $\log 0$. 
+
+---
 ### Neural Network Functions
-#### Function 4: ``forward``
+#### Function 1: ``forward``
 The ``forward`` function performs the forward propagation through a layer of the network : it computes and returns the output vector of the layer given the input vector using the basic formula of a neural network layer:
 $$y_i = \sigma\left(\sum_{j} w_{ij}x_j + b_i\right)$$
 Where : 
