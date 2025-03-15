@@ -1,0 +1,1 @@
+gcc controller.c -I C:\curl\include -L C:\curl\lib -lcurl -o output.exe
