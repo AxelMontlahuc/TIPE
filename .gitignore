@@ -8,3 +8,4 @@ pokemerald.sav
 *.gbc
 *.ss*
 mGBA-interface/build/*
+tests/*
