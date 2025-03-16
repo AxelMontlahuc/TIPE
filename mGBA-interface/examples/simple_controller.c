@@ -18,14 +18,14 @@ int main() {
     
     // Example movement pattern
     while (1) {
-        mgba_press_button(&conn, MGBA_BUTTON_RIGHT, 50);
-        mgba_press_button(&conn, MGBA_BUTTON_RIGHT, 50);
-        mgba_press_button(&conn, MGBA_BUTTON_UP, 50);
-        mgba_press_button(&conn, MGBA_BUTTON_UP, 50);
-        mgba_press_button(&conn, MGBA_BUTTON_LEFT, 50);
-        mgba_press_button(&conn, MGBA_BUTTON_LEFT, 50);
-        mgba_press_button(&conn, MGBA_BUTTON_DOWN, 50);
-        mgba_press_button(&conn, MGBA_BUTTON_DOWN, 50);
+        mgba_press_button(&conn, MGBA_BUTTON_RIGHT, 500);
+        mgba_press_button(&conn, MGBA_BUTTON_RIGHT, 500);
+        mgba_press_button(&conn, MGBA_BUTTON_UP, 500);
+        mgba_press_button(&conn, MGBA_BUTTON_UP, 500);
+        mgba_press_button(&conn, MGBA_BUTTON_LEFT, 500);
+        mgba_press_button(&conn, MGBA_BUTTON_LEFT, 500);
+        mgba_press_button(&conn, MGBA_BUTTON_DOWN, 500);
+        mgba_press_button(&conn, MGBA_BUTTON_DOWN, 500);
     }
     
     // Clean up
