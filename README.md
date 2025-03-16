@@ -1,7 +1,4 @@
-This branch allows you to control the mGBA GameBoy Advanced emulator through a C program. 
+Repo pour le TIPE de 2024-2026 sur les réseaux de neurones récurrents dans les JRPGs. 
 
----
-# Get Started
-To get started, start mGBA and in ``Tools>Scripting``, load ``mGBASocketServer.lua``. 
-Then, run ``mGBA-http-0.3.0-win-x64-self-contained.exe`` (you can run ``mGBA-http-0.3.0-win-x64.exe``if you have the right .NET version on your computer). 
-Finally, compile ``controller.c`` through the ``compile.bat`` batch file. 
+## Structure
+- `mGBA-interface` : Librairie en C pour communiquer avec mGBA : appuyer sur des touches, lire la map. 
