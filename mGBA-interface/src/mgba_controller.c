@@ -1,75 +1,55 @@
+#include "../include/mgba_controller.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <winsock2.h>
 #include <windows.h>
 
-#pragma comment(lib, "ws2_32.lib")
+const char* BUTTON_NAMES[] = {
+    "A", "B", "Select", "Start", "Right", "Left", "Up", "Down", "R", "L"
+};
 
-void press_key(char* input, SOCKET sock) {
-  char* message = malloc(128 * sizeof(char));
-  sprintf(message, "mgba-http.button.tap,%s", input);
-  printf("Message: %s\n", message);
-  char server_reply[1024];
-  int recv_size;
-  if (send(sock, message, strlen(message), 0) < 0) {
-    printf("Send failed. Error Code: %d\n", WSAGetLastError());
-  }
-
-  if ((recv_size = recv(sock, server_reply, sizeof(server_reply) - 1, 0)) == SOCKET_ERROR) {
-      printf("Receive failed. Error Code: %d\n", WSAGetLastError());
-  }
-
-  server_reply[recv_size] = '\0';
-  printf("Server reply: %s\n", server_reply);
-  Sleep(50);
+const char* mgba_button_to_string(MGBAButton button) {
+    if (button >= MGBA_BUTTON_A && button <= MGBA_BUTTON_L) {
+        return BUTTON_NAMES[button];
+    }
+    return "Unknown";
 }
 
-int main() {
-    WSADATA wsa;
-    SOCKET sock;
-    struct sockaddr_in server;
-
-    if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
-        printf("Winsock initialization failed. Error Code: %d\n", WSAGetLastError());
-        return 1;
+int mgba_press_button(MGBAConnection* conn, MGBAButton button, int delay_ms) {
+    char message[64];
+    char response[1024];
+    const char* button_str = mgba_button_to_string(button);
+    
+    // Format the message
+    snprintf(message, sizeof(message), "mgba-http.button.tap,%s", button_str);
+    
+    // Send the command
+    int result = mgba_send_command(conn, message, response, sizeof(response));
+    if (result < 0) {
+        return result;
     }
-
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
-        printf("Socket creation failed. Error Code: %d\n", WSAGetLastError());
-        return 1;
+    
+    // Apply delay if requested
+    if (delay_ms > 0) {
+        Sleep(delay_ms);
     }
+    
+    return 0;
+}
 
-    server.sin_addr.s_addr = inet_addr("127.0.0.1");
-    server.sin_family = AF_INET;
-    server.sin_port = htons(8888);
-
-    if (connect(sock, (struct sockaddr *)&server, sizeof(server)) < 0) {
-        printf("Connection failed. Error Code: %d\n", WSAGetLastError());
-        return 1;
+int mgba_hold_button(MGBAConnection* conn, MGBAButton button, int duration_frames) {
+    char message[64];
+    char response[1024];
+    const char* button_str = mgba_button_to_string(button);
+    
+    // Format the message
+    snprintf(message, sizeof(message), "mgba-http.button.hold,%s,%d", button_str, duration_frames);
+    
+    // Send the command
+    int result = mgba_send_command(conn, message, response, sizeof(response));
+    if (result < 0) {
+        return result;
     }
-
-    while (1) {
-      press_key("Right", sock);
-      press_key("Right", sock);
-      press_key("Right", sock);
-      press_key("Right", sock);
-      press_key("Up", sock);
-      press_key("Up", sock);
-      press_key("Up", sock);
-      press_key("Up", sock);
-      press_key("Left", sock);
-      press_key("Left", sock);
-      press_key("Left", sock);
-      press_key("Left", sock);
-      press_key("Down", sock);
-      press_key("Down", sock);
-      press_key("Down", sock);
-      press_key("Down", sock);
-    }
-
-    closesocket(sock);
-    WSACleanup();
-
+    
     return 0;
 }
