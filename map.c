@@ -90,6 +90,19 @@ int** map_screen(SOCKET sock) {
     return map;
 }
 
+int** map_resize(int** map) {
+    int** nmap = malloc(20 * sizeof(int*));
+    for (int i = 0; i < 20; i++) {
+        nmap[i] = malloc(30 * sizeof(int));
+    }
+    for (int i = 0; i < 20; i++) {
+        for (int j = 0; j < 30; j++) {
+            nmap[i][j] = map[i][j];
+        }
+    }
+    return nmap;
+}
+
 void free_map(int** map) {
     for (int i = 0; i < 32; i++) {
         free(map[i]);
