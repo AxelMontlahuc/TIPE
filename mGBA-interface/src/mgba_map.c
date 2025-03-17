@@ -34,6 +34,22 @@ int mgba_get_screen_offset(MGBAConnection* conn, int* x_offset, int* y_offset) {
     return 0;
 }
 
+char* request_range(SOCKET sock, char* address, char* length) {
+    char* message = malloc(128 * sizeof(char));
+    sprintf(message, "memoryDomain.readRange,vram,%s,%s", address, length);
+    char* server_reply = malloc((32*32*16) * sizeof(char));
+    int recv_size;
+    if (send(sock, message, strlen(message), 0) < 0) {
+        printf("Send failed. Error Code: %d\n", WSAGetLastError());
+    }
+    if ((recv_size = recv(sock, server_reply, 8192 - 1, 0)) == SOCKET_ERROR) {
+        printf("Receive failed. Error Code: %d\n", WSAGetLastError());
+    }
+    server_reply[recv_size] = '\0';
+    free(message);
+    return server_reply;
+}
+
 MGBAMap* mgba_read_map(MGBAConnection* conn) {
     int x_offset, y_offset;
     char response[8192];
@@ -82,7 +98,7 @@ MGBAMap* mgba_read_map(MGBAConnection* conn) {
     }
     
     // Convert to hex
-    char* hex_response = latin1_to_hex(response, strlen(response));
+    char* hex_response = latin1_to_hex(response, 2048);
     if (hex_response == NULL) {
         mgba_free_map(map);
         return NULL;
