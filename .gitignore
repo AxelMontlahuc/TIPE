@@ -9,3 +9,4 @@ pokemerald.sav
 *.ss*
 mGBA-interface/build/*
 tests/*
+*.png
