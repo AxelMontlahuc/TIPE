@@ -8,4 +8,9 @@
  */
 int get_max_HP(SOCKET sock, int pokemon);
 
+/**
+ * @brief Gather the current HP of a pokemon from the game VRAM
+ */
+int get_HP(SOCKET sock, int pokemon);
+
 #endif
