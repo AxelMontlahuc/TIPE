@@ -2,12 +2,15 @@
 
 A C library for programmatically controlling and reading data from mGBA GameBoy Advance emulator.
 
+> WARNING: Linux and macOS are not supported due to the use of WinSock.
+
 ## Features
 
 - Connect to mGBA via socket interface
 - Send button press and hold commands
 - Read and analyze the current game map
 - Display map as ASCII characters
+- Read the pokemon party HP's and levels
 
 ## Requirements
 
@@ -50,6 +53,7 @@ The library includes two example programs:
 
 - `simple_controller`: Demonstrates how to send button commands to move the character
 - `map_viewer`: Shows how to read and display the current game map
+- `intel_gatherer`: Shows how to read the pokemon party HP's and levels
 
 ## Usage
 
