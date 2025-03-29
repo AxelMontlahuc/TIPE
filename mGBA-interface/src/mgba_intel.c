@@ -146,7 +146,7 @@ int get_ATK(SOCKET sock, int pokemon) {
             return -1;
     }
     char* message = malloc(128 * sizeof(char));
-    sprintf(message, "memoryDomain.read8,wram,%s", address);
+    sprintf(message, "memoryDomain.read16,wram,%s", address);
     char* server_reply = malloc(64 * sizeof(char));
     int recv_size;
     if (send(sock, message, strlen(message), 0) < 0) {
@@ -185,7 +185,7 @@ int get_DEF(SOCKET sock, int pokemon) {
             return -1;
     }
     char* message = malloc(128 * sizeof(char));
-    sprintf(message, "memoryDomain.read8,wram,%s", address);
+    sprintf(message, "memoryDomain.read16,wram,%s", address);
     char* server_reply = malloc(64 * sizeof(char));
     int recv_size;
     if (send(sock, message, strlen(message), 0) < 0) {
@@ -224,7 +224,7 @@ int get_SPEED(SOCKET sock, int pokemon) {
             return -1;
     }
     char* message = malloc(128 * sizeof(char));
-    sprintf(message, "memoryDomain.read8,wram,%s", address);
+    sprintf(message, "memoryDomain.read16,wram,%s", address);
     char* server_reply = malloc(64 * sizeof(char));
     int recv_size;
     if (send(sock, message, strlen(message), 0) < 0) {
@@ -263,7 +263,7 @@ int get_ATK_SPE(SOCKET sock, int pokemon) {
             return -1;
     }
     char* message = malloc(128 * sizeof(char));
-    sprintf(message, "memoryDomain.read8,wram,%s", address);
+    sprintf(message, "memoryDomain.read16,wram,%s", address);
     char* server_reply = malloc(64 * sizeof(char));
     int recv_size;
     if (send(sock, message, strlen(message), 0) < 0) {
@@ -302,7 +302,7 @@ int get_DEF_SPE(SOCKET sock, int pokemon) {
             return -1;
     }
     char* message = malloc(128 * sizeof(char));
-    sprintf(message, "memoryDomain.read8,wram,%s", address);
+    sprintf(message, "memoryDomain.read16,wram,%s", address);
     char* server_reply = malloc(64 * sizeof(char));
     int recv_size;
     if (send(sock, message, strlen(message), 0) < 0) {
@@ -352,7 +352,7 @@ int get_PP(SOCKET sock, int move) {
 int get_enemy_max_HP(SOCKET sock) {
     char* address = "0x02024108";
     char* message = malloc(128 * sizeof(char));
-    sprintf(message, "memoryDomain.read8,wram,%s", address);
+    sprintf(message, "memoryDomain.read16,wram,%s", address);
     char* server_reply = malloc(64 * sizeof(char));
     int recv_size;
     if (send(sock, message, strlen(message), 0) < 0) {
@@ -369,7 +369,7 @@ int get_enemy_max_HP(SOCKET sock) {
 int get_enemy_HP(SOCKET sock) {
     char* address = "0x02024104";
     char* message = malloc(128 * sizeof(char));
-    sprintf(message, "memoryDomain.read8,wram,%s", address);
+    sprintf(message, "memoryDomain.read16,wram,%s", address);
     char* server_reply = malloc(64 * sizeof(char));
     int recv_size;
     if (send(sock, message, strlen(message), 0) < 0) {
