@@ -63,4 +63,9 @@ int get_enemy_HP(SOCKET sock);
  */
 int get_enemy_level(SOCKET sock);
 
+/**
+ * @brief Gather the zone the player is in from the game VRAM
+ */
+int get_zone(SOCKET sock);
+
 #endif

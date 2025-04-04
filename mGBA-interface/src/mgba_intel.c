@@ -399,3 +399,20 @@ int get_enemy_level(SOCKET sock) {
     free(message);
     return atoi(server_reply);
 }
+
+int get_zone(SOCKET sock) {
+    char* address = "0x02037324";
+    char* message = malloc(128 * sizeof(char));
+    sprintf(message, "memoryDomain.read8,wram,%s", address);
+    char* server_reply = malloc(64 * sizeof(char));
+    int recv_size;
+    if (send(sock, message, strlen(message), 0) < 0) {
+        printf("Send failed. Error Code: %d\n", WSAGetLastError());
+    }
+    if ((recv_size = recv(sock, server_reply, 32 - 1, 0)) == SOCKET_ERROR) {
+        printf("Receive failed. Error Code: %d\n", WSAGetLastError());
+    }
+    server_reply[recv_size] = '\0';
+    free(message);
+    return atoi(server_reply);
+}
