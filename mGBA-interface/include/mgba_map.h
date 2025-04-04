@@ -21,12 +21,20 @@ typedef struct {
 } MGBAMap;
 
 /**
- * @brief Read the current map tiles from the screen
+ * @brief Read the current map tiles from the background layer 0
  * 
  * @param conn Pointer to MGBAConnection structure
  * @return MGBAMap* Pointer to newly allocated map structure (must be freed with mgba_free_map)
  */
-MGBAMap* mgba_read_map(MGBAConnection* conn);
+MGBAMap* mgba_read_bg0(MGBAConnection* conn);
+
+/**
+ * @brief Read the current map tiles from the background layer `bg`
+ * 
+ * @param conn Pointer to MGBAConnection structure
+ * @return MGBAMap* Pointer to newly allocated map structure (must be freed with mgba_free_map)
+ */
+MGBAMap* mgba_read_map(MGBAConnection* conn, int bg);
 
 /**
  * @brief Free the memory allocated for a map

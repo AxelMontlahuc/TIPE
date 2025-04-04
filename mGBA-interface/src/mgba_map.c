@@ -50,7 +50,69 @@ char* request_range(SOCKET sock, char* address, char* length) {
     return server_reply;
 }
 
-MGBAMap* mgba_read_map(MGBAConnection* conn) {
+MGBAMap* mgba_read_bg0(MGBAConnection* conn) {
+    char response[8192];
+    char command[64];
+
+    MGBAMap* map = (MGBAMap*)malloc(sizeof(MGBAMap));
+    if (map == NULL) return NULL;
+    
+    map->width = 32;
+    map->height = 32;
+    
+    // Allocate tile data
+    map->tiles = (int**)malloc(map->height * sizeof(int*));
+    if (map->tiles == NULL) {
+        free(map);
+        return NULL;
+    }
+    
+    for (int i = 0; i < map->height; i++) {
+        map->tiles[i] = (int*)malloc(map->width * sizeof(int));
+        if (map->tiles[i] == NULL) {
+            for (int j = 0; j < i; j++) {
+                free(map->tiles[j]);
+            }
+            free(map->tiles);
+            free(map);
+            return NULL;
+        }
+    }
+    
+    // Request map data
+    snprintf(command, sizeof(command), "memoryDomain.readRange,vram,%s,2048", address);
+    if (mgba_send_command(conn, command, response, sizeof(response)) < 0) {
+        mgba_free_map(map);
+        return NULL;
+    }
+    
+    // Convert to hex
+    char* hex_response = latin1_to_hex(response, 2048);
+    if (hex_response == NULL) {
+        mgba_free_map(map);
+        return NULL;
+    }
+    
+    // Fill map data with adjusted offsets
+    for (int row = 0; row < map->height; row++) {
+        for (int col = 0; col < map->width; col++) {
+            int src_row = (row) % map->height;
+            int src_col = (col) % map->width;
+            int tile_index = src_row * map->width + src_col;
+            
+            char buffer[5];
+            strncpy(buffer, hex_response + (tile_index * 4), 4);
+            buffer[4] = '\0';
+            
+            map->tiles[row][col] = (int)strtol(buffer, NULL, 16);
+        }
+    }
+    
+    free(hex_response);
+    return map;
+}
+
+MGBAMap* mgba_read_map(MGBAConnection* conn, int bg) {
     int x_offset, y_offset;
     char response[8192];
     char command[64];
@@ -89,9 +151,25 @@ MGBAMap* mgba_read_map(MGBAConnection* conn) {
             return NULL;
         }
     }
+
+    char* address;
+    switch (bg) {
+        case 1:
+            address = "0x0600e800";
+            break;
+        case 2:
+            address = "0x0600e000";
+            break;
+        case 3:
+            address = "0x0600f000";
+            break;
+        default:
+            address = "0x0600e000";
+            break;
+    }
     
     // Request map data
-    snprintf(command, sizeof(command), "memoryDomain.readRange,vram,0x0600e000,2048");
+    snprintf(command, sizeof(command), "memoryDomain.readRange,vram,%s,2048", address);
     if (mgba_send_command(conn, command, response, sizeof(response)) < 0) {
         mgba_free_map(map);
         return NULL;
